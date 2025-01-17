@@ -1,0 +1,20 @@
+nav {
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    justify-content: center;
+    gap: 2vw;
+
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    padding: 1vw;
+    border: solid var(--mediumBlue) 1px;
+    border-radius: 6px;
+}
+
+a:hover {
+    border-color: var(--lightBlue);
+}
