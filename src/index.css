@@ -1,0 +1,22 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --pink: #f3307e;
+  --lightBlue: #2c82b3;
+  --mediumBlue: #2f5086;
+  --darkBlue: #133d56;
+  --green: #1ee024;
+  --lightYellow: #eeda7b;
+  --darkYellow: #fdc418;
+  --offWhite: #f7f6f2;
+  --cream: #f1ede3;
+}
+
+body {
+  min-height: 100vw;
+  background-color: var(--darkBlue);
+}
