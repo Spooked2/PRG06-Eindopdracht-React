@@ -10,6 +10,7 @@ function Layout() {
             <header>
                 <nav>
                     <Link to={'/'}>Home</Link>
+                    <Link to={'/cases'}>All cases</Link>
                 </nav>
             </header>
 
