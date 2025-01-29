@@ -8,14 +8,11 @@ function App() {
 
   const router = createBrowserRouter([{
     element: <Layout/>,
+    errorElement: <Error404/>,
     children: [
       {
         path: '/',
         element: <Home/>
-      },
-      {
-        path: '/404',
-        element: <Error404/>
       }
     ]
   }]);
