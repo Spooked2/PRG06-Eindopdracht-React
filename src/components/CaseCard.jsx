@@ -1,3 +1,5 @@
+import './CaseCard.css';
+
 function CaseCard({gameCase}) {
 
     return (

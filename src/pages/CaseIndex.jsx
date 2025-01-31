@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {useEnv} from "../context/EnvContext.jsx";
 import CaseCard from "../components/CaseCard.jsx";
+import './CaseIndex.css';
 
 function CaseIndex() {
 
@@ -41,11 +42,11 @@ function CaseIndex() {
 
 
     return (
-        <section>
+        <section id={"caseIndex"}>
 
             <h1>All cases</h1>
 
-            <div id="caseContainer">
+            <div id={"caseContainer"}>
                 {
                     (gameCases ?
                             gameCases.map(gameCase => (

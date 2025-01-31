@@ -35,7 +35,7 @@ a:hover {
     color: var(--green);
 }
 
-section {
+section.solidBackground {
     background-color: var(--cream);
     color: black;
     padding: 1vw;

@@ -1,0 +1,23 @@
+#caseIndex {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    align-items: center;
+}
+
+#caseIndex h1 {
+    background-color: var(--cream);
+    padding: 1vw 20vw;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#caseContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    width: 100%;
+    align-items: center;
+}

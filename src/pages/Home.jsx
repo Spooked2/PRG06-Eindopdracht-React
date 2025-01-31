@@ -2,7 +2,7 @@
 function Home() {
 
     return (
-        <section>
+        <section className={"solidBackground"}>
             <h1>Court record</h1>
         </section>
     );
