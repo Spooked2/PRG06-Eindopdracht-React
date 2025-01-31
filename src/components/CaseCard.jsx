@@ -16,7 +16,7 @@ function CaseCard({gameCase}) {
 
                         gameCase.profiles.map(profile => (
 
-                            <article key={profile._id} className={"profileCard"}>
+                            <article key={profile.id} className={"profileCard"}>
 
                                 <div>
                                     <img src={`data:${profile.images[0].mime};base64, ${profile.images[0].data}`}
@@ -44,7 +44,7 @@ function CaseCard({gameCase}) {
 
                         gameCase.evidence.map(evidencePiece => (
 
-                            <article key={evidencePiece._id} className={"evidenceCard"}>
+                            <article key={evidencePiece.id} className={"evidenceCard"}>
 
                                 <div>
                                     <img

@@ -25,7 +25,7 @@ function CaseIndex() {
 
                 const data = await response.json();
 
-                setGameCases(data);
+                setGameCases(data.items);
 
             } catch (error) {
 
@@ -50,7 +50,7 @@ function CaseIndex() {
                     (gameCases ?
                             gameCases.map(gameCase => (
 
-                                <CaseCard key={gameCase._id} gameCase={gameCase}/>
+                                <CaseCard key={gameCase.id} gameCase={gameCase}/>
 
                             )
                             )
