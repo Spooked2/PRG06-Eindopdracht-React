@@ -1,20 +1,42 @@
 nav {
     display: flex;
     flex-direction: row;
-    width: 90vw;
     justify-content: center;
     gap: 2vw;
+    width: 50vw;
+    height: 8vh;
+    padding: 1vw;
+    margin: auto auto 2vh;
+    border: 2px solid var(--cream);
+    border-top: 0;
+    color: black;
 
+    background-image:
+            radial-gradient(var(--lightBlueDot) 40%, transparent 40%),
+            radial-gradient(var(--lightBlueDot) 40%, transparent 40%);
+    background-position: 0 0, 4px 4px;
+    background-size: 8px 8px;
+    background-color: var(--lightBlue);
 }
 
 a {
     text-decoration: none;
-    color: inherit;
+    color: var(--offWhite);
     padding: 1vw;
-    border: solid var(--mediumBlue) 1px;
+    border: solid var(--lightBlue) 1px;
+    background-color: var(--darkBlue);
     border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 a:hover {
-    border-color: var(--lightBlue);
+    color: var(--green);
+}
+
+section {
+    background-color: var(--cream);
+    color: black;
+    padding: 1vw;
 }

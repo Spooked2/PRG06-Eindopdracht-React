@@ -6,26 +6,54 @@
 
 :root {
   --pink: #f3307e;
-  --lightBlue: #2c82b3;
+  --lightBlue: #2989bc;
+  --lightBlueDot: #2d8fc2;
   --mediumBlue: #2f5086;
-  --darkBlue: #133d56;
+  --darkBlue: #070e21;
+  --darkBlueDot: #1e2538;
   --green: #1ee024;
-  --lightYellow: #eeda7b;
-  --darkYellow: #fdc418;
+  --lightYellow: #c5a225;
+  --darkYellow: #403016;
   --offWhite: #f7f6f2;
   --cream: #f1ede3;
 }
 
+@font-face {
+  font-family: 'Attorney';
+  src: url("../public/AA-font.otf");
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  min-height: 100vw;
-  background-color: var(--darkBlue);
+  min-height: 100vh;
+  height: max-content;
+  max-width: 100vw;
+  contain: paint;
   color: var(--offWhite);
+  padding-left: calc(100vw - 100%);
+  font-family: 'Attorney', serif;
+
+  background-image:
+          radial-gradient(var(--darkBlueDot) 20%, transparent 20%),
+          radial-gradient(var(--darkBlueDot) 20%, transparent 20%);
+  background-position: 0 0, 4px 4px;
+  background-size: 8px 8px;
+  background-color: var(--darkBlue);
 }
 
 main {
   color: black;
-  background-color: var(--cream);
+  min-height: 80vh;
   width: 75vw;
-  padding: 2vw;
-  margin: auto;
+  padding: 0.5vw;
+  margin: auto auto 2vh;
+  border: 2px solid var(--cream);
+
+  background-image:
+          radial-gradient(var(--lightBlueDot) 40%, transparent 40%),
+          radial-gradient(var(--lightBlueDot) 40%, transparent 40%);
+  background-position: 0 0, 4px 4px;
+  background-size: 8px 8px;
+  background-color: var(--lightBlue);
 }

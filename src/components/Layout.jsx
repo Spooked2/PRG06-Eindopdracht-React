@@ -17,10 +17,6 @@ function Layout() {
             <main>
                 <Outlet/>
             </main>
-
-            <footer>
-                <p>Copyright? nah</p>
-            </footer>
         </EnvProvider>
     );
 
