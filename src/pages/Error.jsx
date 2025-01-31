@@ -1,12 +1,9 @@
-import {Link, Outlet} from "react-router";
-import './Layout.css';
-import {EnvProvider} from "../context/EnvContext.jsx";
+import {Link} from "react-router";
 
-function Layout() {
+function Error() {
 
     return (
-
-        <EnvProvider>
+        <>
             <header>
                 <nav>
                     <Link to={'/'}>Home</Link>
@@ -18,11 +15,16 @@ function Layout() {
             </header>
 
             <main>
-                <Outlet/>
-            </main>
-        </EnvProvider>
-    );
+                <section id={"errorPage"}>
 
+                    <h1>Something went wrong!</h1>
+
+                    <p>See the console and use the navigation bar to leave</p>
+
+                </section>
+            </main>
+        </>
+    )
 }
 
-export default Layout;
+export default Error;
