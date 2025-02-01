@@ -33,6 +33,7 @@ body {
   color: var(--offWhite);
   padding-left: calc(100vw - 100%);
   font-family: 'Attorney', serif;
+  font-size: 1.4vw;
 
   background-image:
           radial-gradient(var(--darkBlueDot) 20%, transparent 20%),
