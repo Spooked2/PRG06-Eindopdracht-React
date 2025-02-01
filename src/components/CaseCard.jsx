@@ -1,4 +1,5 @@
 import './CaseCard.css';
+import {Link} from "react-router";
 
 function CaseCard({gameCase}) {
 
@@ -65,6 +66,8 @@ function CaseCard({gameCase}) {
                 }
 
             </div>
+
+            <Link to={`/cases/${gameCase.id}`}>Details</Link>
 
         </article>
     )
