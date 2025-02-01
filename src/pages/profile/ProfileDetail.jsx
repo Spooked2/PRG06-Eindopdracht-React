@@ -1,7 +1,7 @@
-import {useEnv} from "../context/EnvContext.jsx";
+import {useEnv} from "../../context/EnvContext.jsx";
 import {Link, useParams} from "react-router";
 import {useEffect, useState} from "react";
-import ScrollButtons from "../components/ScrollButtons.jsx";
+import ScrollButtons from "../../components/ScrollButtons.jsx";
 
 function ProfileDetail() {
 
@@ -74,7 +74,7 @@ function ProfileDetail() {
                                 </ScrollButtons>
 
                                 <ScrollButtons key={'age'} targetLength={profile.ages.length} setter={setAge}>
-                                    ({profile.ages[age]})
+                                    (Age: {profile.ages[age]})
                                 </ScrollButtons>
 
                             </div>

@@ -1,7 +1,7 @@
-import {useEnv} from "../context/EnvContext.jsx";
+import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router";
-import ScrollButtons from "../components/ScrollButtons.jsx";
+import ScrollButtons from "../../components/ScrollButtons.jsx";
 
 function EvidenceDetail() {
 

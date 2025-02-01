@@ -1,5 +1,5 @@
 import {Link, useParams} from "react-router";
-import {useEnv} from "../context/EnvContext.jsx";
+import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 
 function GameDetail() {

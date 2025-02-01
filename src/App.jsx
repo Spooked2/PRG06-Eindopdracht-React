@@ -3,14 +3,14 @@ import {createBrowserRouter, RouterProvider} from "react-router";
 import Layout from "./components/Layout.jsx";
 import Home from "./pages/Home.jsx";
 import Error from "./pages/Error.jsx";
-import CaseIndex from "./pages/CaseIndex.jsx";
-import CaseDetail from "./pages/CaseDetail.jsx";
-import GameIndex from "./pages/GameIndex.jsx";
-import GameDetail from "./pages/GameDetail.jsx";
-import EvidenceIndex from "./pages/EvidenceIndex.jsx";
-import EvidenceDetail from "./pages/EvidenceDetail.jsx";
-import ProfileIndex from "./pages/ProfileIndex.jsx";
-import ProfileDetail from "./pages/ProfileDetail.jsx";
+import CaseIndex from "./pages/case/CaseIndex.jsx";
+import CaseDetail from "./pages/case/CaseDetail.jsx";
+import GameIndex from "./pages/game/GameIndex.jsx";
+import GameDetail from "./pages/game/GameDetail.jsx";
+import EvidenceIndex from "./pages/evidence/EvidenceIndex.jsx";
+import EvidenceDetail from "./pages/evidence/EvidenceDetail.jsx";
+import ProfileIndex from "./pages/profile/ProfileIndex.jsx";
+import ProfileDetail from "./pages/profile/ProfileDetail.jsx";
 
 function App() {
 

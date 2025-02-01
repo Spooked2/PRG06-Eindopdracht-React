@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {useEnv} from "../context/EnvContext.jsx";
-import CaseCard from "../components/CaseCard.jsx";
+import {useEnv} from "../../context/EnvContext.jsx";
+import CaseCard from "../../components/CaseCard.jsx";
 import './CaseIndex.css';
 
 function CaseIndex() {

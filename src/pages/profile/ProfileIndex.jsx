@@ -1,4 +1,4 @@
-import {useEnv} from "../context/EnvContext.jsx";
+import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 import {Link} from "react-router";
 
@@ -59,7 +59,7 @@ function ProfileIndex() {
                                     </div>
 
                                     <div>
-                                        <h2>{profile.names[0]} ({profile.ages[0]})</h2>
+                                        <h2>{profile.names[0]} (Age: {profile.ages[0]})</h2>
                                         <p>{profile.descriptions[0].text}</p>
                                     </div>
 
