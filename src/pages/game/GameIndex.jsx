@@ -73,6 +73,7 @@ function GameIndex() {
 
                                         </div>
 
+                                        <Link to={'/games/' + game.id}>Details</Link>
 
                                     </article>
 
