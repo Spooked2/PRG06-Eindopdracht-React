@@ -1,12 +1,14 @@
 import {Link, useParams} from "react-router";
 import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
+import FetchError from "../../components/FetchError.jsx";
 
 function GameDetail() {
 
     const env = useEnv();
     const [game, setGame] = useState(null);
     const {id} = useParams();
+    const [fetchError, setFetchError] = useState(false);
 
     useEffect(() => {
         async function fetchSpecificGame() {
@@ -21,7 +23,8 @@ function GameDetail() {
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Something went wrong! Status: ${response.status}`);
+                    const errorMessage = await response.json();
+                    throw new Error(errorMessage.error, {cause: response.status});
                 }
 
                 const data = await response.json();
@@ -30,7 +33,7 @@ function GameDetail() {
 
             } catch (error) {
 
-                console.error(error.message);
+                setFetchError(error);
 
             }
 
@@ -39,6 +42,10 @@ function GameDetail() {
         fetchSpecificGame();
 
     }, []);
+
+    if (fetchError) {
+        return <FetchError error={fetchError}/>
+    }
 
     return game ? (
         <section>

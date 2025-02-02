@@ -1,11 +1,13 @@
 import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 import {Link} from "react-router";
+import FetchError from "../../components/FetchError.jsx";
 
 function GameIndex() {
 
     const env = useEnv();
     const [games, setGames] = useState(null);
+    const [fetchError, setFetchError] = useState(false);
 
     useEffect(() => {
         async function fetchAllGames() {
@@ -20,7 +22,8 @@ function GameIndex() {
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Something went wrong! Status: ${response.status}`);
+                    const errorMessage = await response.json();
+                    throw new Error(errorMessage.error, {cause: response.status});
                 }
 
                 const data = await response.json();
@@ -29,7 +32,7 @@ function GameIndex() {
 
             } catch (error) {
 
-                console.error(error.message);
+                setFetchError(error);
 
             }
 
@@ -38,6 +41,10 @@ function GameIndex() {
         fetchAllGames();
 
     }, []);
+
+    if (fetchError) {
+        return <FetchError error={fetchError}/>
+    }
 
     return (
         <section id={'gameIndex'}>
