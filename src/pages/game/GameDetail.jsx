@@ -75,6 +75,13 @@ function GameDetail() {
 
                 </div>
 
+                <div>
+
+                    <Link to={'/update/games/' + game.id}>Edit</Link>
+                    <Link to={'/delete/games/' + game.id}>Delete</Link>
+
+                </div>
+
             </article>
 
         </section>

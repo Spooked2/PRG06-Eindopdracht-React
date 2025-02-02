@@ -51,6 +51,8 @@ function GameIndex() {
 
             <h1>All games</h1>
 
+            <Link to={'/create/games'}>Create new game</Link>
+
             <div id={"gameContainer"}>
                 {
                     (games ?

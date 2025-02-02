@@ -2,12 +2,15 @@ import {useEnv} from "../../context/EnvContext.jsx";
 import {Link, useParams} from "react-router";
 import {useEffect, useState} from "react";
 import ScrollButtons from "../../components/ScrollButtons.jsx";
+import FetchError from "../../components/FetchError.jsx";
 
 function ProfileDetail() {
 
     const env = useEnv();
     const {id} = useParams();
     const [profile, setProfile] = useState(null);
+    const [gameCases, setGameCases] = useState(new Map);
+    const [fetchError, setFetchError] = useState(false);
 
     const [name, setName] = useState(0);
     const [age, setAge] = useState(0);
@@ -27,16 +30,24 @@ function ProfileDetail() {
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Something went wrong! Status: ${response.status}`);
+                    const errorMessage = await response.json();
+                    throw new Error(errorMessage.error, {cause: response.status});
                 }
 
                 const data = await response.json();
 
                 setProfile(data);
 
+                for (const fetchedCase of data.cases) {
+                    const name = fetchedCase.name;
+                    const id = fetchedCase._id;
+
+                    gameCases.set(id, name);
+                }
+
             } catch (error) {
 
-                console.error(error.message);
+                setFetchError(error);
 
             }
 
@@ -45,6 +56,10 @@ function ProfileDetail() {
         fetchSpecificProfile();
 
     }, []);
+
+    if (fetchError) {
+        return <FetchError error={fetchError}/>
+    }
 
     return (
         <section>
@@ -86,7 +101,7 @@ function ProfileDetail() {
                                 <p>{profile.descriptions[description].text}</p>
                                 <p>Description from
                                     <Link to={'/cases/' + profile.descriptions[description].case}>
-                                        {profile.descriptions[description].case.name}
+                                        {gameCases.get(profile.descriptions[description].case)}
                                     </Link>
                                 </p>
 

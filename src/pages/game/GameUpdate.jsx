@@ -1,11 +1,12 @@
 import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
-import {useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 
 function GameUpdate() {
 
     const env = useEnv();
     const {id} = useParams();
+    const navigate = useNavigate();
 
     const [messages, setMessages] = useState({});
     const [game, setGame] = useState(null);
@@ -28,7 +29,7 @@ function GameUpdate() {
     const submitHandler = async (e) => {
         e.preventDefault();
         await putUpdatedGame(formData);
-        await fetchSpecificGame();
+        navigate('/games/' + id);
     }
 
     useEffect(() => {
