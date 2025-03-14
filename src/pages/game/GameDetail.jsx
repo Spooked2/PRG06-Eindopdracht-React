@@ -1,45 +1,31 @@
 import {Link, useParams} from "react-router";
-import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 import FetchError from "../../components/FetchError.jsx";
+import fetchFunc from "../../util/fetchFunc.jsx";
 
 function GameDetail() {
 
-    const env = useEnv();
     const [game, setGame] = useState(null);
     const {id} = useParams();
     const [fetchError, setFetchError] = useState(false);
 
-    useEffect(() => {
-        async function fetchSpecificGame() {
+    async function fetchGame() {
 
-            try {
+        const response = await fetchFunc('games', {
+            method: 'GET',
+            id: id
+        });
 
-                const response = await fetch(env.baseApiUrl + "games/" + id, {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                });
-
-                if (!response.ok) {
-                    const errorMessage = await response.json();
-                    throw new Error(errorMessage.error, {cause: response.status});
-                }
-
-                const data = await response.json();
-
-                setGame(data);
-
-            } catch (error) {
-
-                setFetchError(error);
-
-            }
-
+        if (response.ok) {
+            setGame(response.body)
+        } else {
+            setFetchError({cause: response.status, message: response.statusText})
         }
+    }
 
-        fetchSpecificGame();
+    useEffect(() => {
+
+        fetchGame();
 
     }, []);
 

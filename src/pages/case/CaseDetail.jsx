@@ -1,44 +1,37 @@
-import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router";
+import fetchFunc from "../../util/fetchFunc.jsx";
+import FetchError from "../../components/FetchError.jsx";
 
 function CaseDetail() {
 
-    const env = useEnv();
     const [gameCase, setGameCase] = useState(null);
     const {id} = useParams();
+    const [fetchError, setFetchError] = useState(false);
+
+    async function fetchCase() {
+
+        const response = await fetchFunc('games', {
+            method: 'GET',
+            id: id
+        });
+
+        if (response.ok) {
+            setGameCase(response.body)
+        } else {
+            setFetchError({cause: response.status, message: response.statusText})
+        }
+    }
 
     useEffect(() => {
-        async function fetchSpecificCase() {
 
-            try {
-
-                const response = await fetch(env.baseApiUrl + "cases/" + id, {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Something went wrong! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                setGameCase(data);
-
-            } catch (error) {
-
-                console.error(error.message);
-
-            }
-
-        }
-
-        fetchSpecificCase();
+        fetchCase();
 
     }, []);
+
+    if (fetchError) {
+        return <FetchError error={fetchError}/>
+    }
 
     return gameCase ? (
             <section id={'caseDetail'}>
@@ -70,18 +63,18 @@ function CaseDetail() {
                     {
                         gameCase.evidence.map(evidencePiece => (
 
-                        <article key={evidencePiece.id} className={"evidenceCard"}>
+                            <article key={evidencePiece.id} className={"evidenceCard"}>
 
-                            <div>
-                                <img
-                                    src={`data:${evidencePiece.small_images[0].mime};base64, ${evidencePiece.small_images[0].data}`}
-                                    alt={`Image of ${evidencePiece.names[0]}`}/>
-                            </div>
+                                <div>
+                                    <img
+                                        src={`data:${evidencePiece.small_images[0].mime};base64, ${evidencePiece.small_images[0].data}`}
+                                        alt={`Image of ${evidencePiece.names[0]}`}/>
+                                </div>
 
-                            <h4>{evidencePiece.names[0]}</h4>
+                                <h4>{evidencePiece.names[0]}</h4>
 
-                        </article>
-                    ))
+                            </article>
+                        ))
                     }
 
                 </div>

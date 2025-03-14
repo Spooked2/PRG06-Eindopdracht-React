@@ -1,13 +1,14 @@
-import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router";
+import fetchFunc from "../../util/fetchFunc.jsx";
+import FetchError from "../../components/FetchError.jsx";
 
 function GameUpdate() {
 
-    const env = useEnv();
     const {id} = useParams();
     const navigate = useNavigate();
 
+    const [fetchError, setFetchError] = useState(false);
     const [messages, setMessages] = useState({});
     const [game, setGame] = useState(null);
 
@@ -54,60 +55,41 @@ function GameUpdate() {
 
     async function fetchSpecificGame() {
 
-        try {
+        const response = await fetchFunc('games', {
+            method: 'GET',
+            id: id
+        });
 
-            const response = await fetch(env.baseApiUrl + "games/" + id, {
-                method: "GET",
-                headers: {
-                    "Accept": "application/json"
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`Something went wrong! Status: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            setGame(data);
-
-        } catch (error) {
-
-            console.error(error.message);
-
+        if (response.ok) {
+            setGame(response.body);
+        } else {
+            setFetchError({cause: response.status, message: response.statusText});
         }
 
     }
 
     async function putUpdatedGame(updatedGame) {
 
-        try {
+        const response = await fetchFunc('games', {
+            method: 'PUT',
+            id: id,
+            body: JSON.stringify(updatedGame)
+        });
 
-            const response = await fetch(env.baseApiUrl + "games/" + id, {
-                method: "PUT",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(updatedGame)
-            });
+        if (response.ok) {
 
-            if (!response.ok) {
-                const data = await response.json();
-                setMessages({error: data.error});
-                throw new Error(`Something went wrong! Status: ${response.status} Error: ${data.error}`);
-            }
-
-            const data = await response.json();
             setMessages({success: "Game was updated!"});
-            return data;
 
-        } catch (error) {
+        } else {
 
-            return console.error(error.message);
+            setMessages({error: response.body.error});
 
         }
 
+    }
+
+    if (fetchError) {
+        return <FetchError error={fetchError}/>
     }
 
     return game ? (

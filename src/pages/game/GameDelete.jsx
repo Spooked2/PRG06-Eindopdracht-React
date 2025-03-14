@@ -1,70 +1,47 @@
-import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router";
 import FetchError from "../../components/FetchError.jsx";
+import fetchFunc from "../../util/fetchFunc.jsx";
 
 function GameDelete() {
 
-    const env = useEnv();
     const [game, setGame] = useState(null);
     const {id} = useParams();
     const [fetchError, setFetchError] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
 
     const deleteGame = async () => {
-        try {
 
-            const response = await fetch(env.baseApiUrl + "games/" + id, {
-                method: "DELETE",
-                headers: {
-                    "Accept": "application/json"
-                }
-            });
+        const response = await fetchFunc('games', {
+            method: 'DELETE',
+            id: id
+        })
 
-            if (!response.ok) {
-                const errorMessage = await response.json();
-                throw new Error(errorMessage.error, {cause: response.status});
-            }
-
+        if (response.ok) {
             setIsDeleted(true);
+        } else {
+            setFetchError({cause: response.status, message: response.statusText})
+        }
 
-        } catch (error) {
+    }
 
-            setFetchError(error);
+    async function fetchGame() {
 
+        const response = await fetchFunc('games', {
+            method: 'GET',
+            id: id
+        });
+
+        if (response.ok) {
+            setGame(response.body)
+        } else {
+            setFetchError({cause: response.status, message: response.statusText})
         }
     }
 
     useEffect(() => {
-        async function fetchSpecificGame() {
 
-            try {
-
-                const response = await fetch(env.baseApiUrl + "games/" + id, {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                });
-
-                if (!response.ok) {
-                    const errorMessage = await response.json();
-                    throw new Error(errorMessage.error, {cause: response.status});
-                }
-
-                const data = await response.json();
-
-                setGame(data);
-
-            } catch (error) {
-
-                setFetchError(error);
-
-            }
-
-        }
-
-        fetchSpecificGame();
+        fetchGame();
 
     }, []);
 
@@ -81,7 +58,7 @@ function GameDelete() {
                 <div>
 
                     <Link to={'/games'}>Return to game index</Link>
-                    <Link to={'/home'}>Return to home</Link>
+                    <Link to={'/'}>Return to home</Link>
 
                 </div>
 

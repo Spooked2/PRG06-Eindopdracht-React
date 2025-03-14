@@ -15,7 +15,11 @@ async function fetchFunc(endpoint, options) {
             body: options.body ?? null
         });
 
-        const data = await response.json();
+        let data = null;
+
+        if (response.status !== 204) {
+            data = await response.json();
+        }
 
         return {
             body: data,

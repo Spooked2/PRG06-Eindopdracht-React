@@ -1,44 +1,29 @@
-import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 import {Link} from "react-router";
 import FetchError from "../../components/FetchError.jsx";
+import fetchFunc from "../../util/fetchFunc.jsx";
 
 function GameIndex() {
 
-    const env = useEnv();
     const [games, setGames] = useState(null);
     const [fetchError, setFetchError] = useState(false);
 
-    useEffect(() => {
-        async function fetchAllGames() {
+    async function fetchGames() {
 
-            try {
+        const response = await fetchFunc('games', {
+            method: 'GET'
+        });
 
-                const response = await fetch(env.baseApiUrl + "games", {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                });
-
-                if (!response.ok) {
-                    const errorMessage = await response.json();
-                    throw new Error(errorMessage.error, {cause: response.status});
-                }
-
-                const data = await response.json();
-
-                setGames(data.items);
-
-            } catch (error) {
-
-                setFetchError(error);
-
-            }
-
+        if (response.ok) {
+            setGames(response.body.items)
+        } else {
+            setFetchError({cause: response.status, message: response.statusText})
         }
+    }
 
-        fetchAllGames();
+    useEffect(() => {
+
+        fetchGames();
 
     }, []);
 
@@ -75,7 +60,8 @@ function GameIndex() {
                                             <div id={'caseContainer'}>
 
                                                 {game.cases.map(gameCase => (
-                                                    <Link to={'/cases/' + gameCase.id} key={gameCase.id} className={'caseLink'}>{gameCase.name}</Link>
+                                                    <Link to={'/cases/' + gameCase.id} key={gameCase.id}
+                                                          className={'caseLink'}>{gameCase.name}</Link>
                                                 ))}
 
                                             </div>

@@ -1,9 +1,7 @@
 import {useState} from "react";
-import {useEnv} from "../../context/EnvContext.jsx";
+import fetchFunc from "../../util/fetchFunc.jsx";
 
 function GameCreate() {
-
-    const env = useEnv();
 
     const [messages, setMessages] = useState({});
 
@@ -23,11 +21,11 @@ function GameCreate() {
     }
 
     const submitHandler = async (e) => {
+
         e.preventDefault();
-        const response = await postNewGame(formData);
-        if (response?.success) {
-            clearFormData();
-        }
+
+        await postNewGame(formData);
+
     }
 
     const clearFormData = () => {
@@ -40,30 +38,19 @@ function GameCreate() {
 
     async function postNewGame(newGame) {
 
-        try {
+        const response = await fetchFunc('games', {
+            method: 'POST',
+            body: JSON.stringify(newGame)
+        });
 
-            const response = await fetch(env.baseApiUrl + "games", {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(newGame)
-            });
+        if (response.ok) {
 
-            if (!response.ok) {
-                const data = await response.json();
-                setMessages({error: data.error});
-                throw new Error(`Something went wrong! Status: ${response.status} Error: ${data.error}`);
-            }
-
-            const data = await response.json();
             setMessages({success: "Game was created!"});
-            return data;
+            clearFormData();
 
-        } catch (error) {
+        } else {
 
-            return console.error(error.message);
+            setMessages({error: response.body.error});
 
         }
 
@@ -75,12 +62,12 @@ function GameCreate() {
             <h1>Create a new game</h1>
 
             {messages.error ? (
-             <p>{messages.error}</p>
+                <p>{messages.error}</p>
             ) : ''
             }
 
             {messages.success ? (
-             <p>{messages.success}</p>
+                <p>{messages.success}</p>
             ) : ''
             }
 
