@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import fetchFunc from "../../util/fetchFunc.jsx";
 import FetchError from "../../components/FetchError.jsx";
+import MultiSelect from "../../components/MultiSelect.jsx";
 
 function CaseCreate() {
 
@@ -8,6 +9,8 @@ function CaseCreate() {
     const [games, setGames] = useState([]);
     const [evidence, setEvidence] = useState([]);
     const [profiles, setProfiles] = useState([]);
+    const [selectedEvidence, setSelectedEvidence] = useState([]);
+    const [selectedProfiles, setSelectedProfiles] = useState([]);
     const [fetchError, setFetchError] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -26,9 +29,31 @@ function CaseCreate() {
         });
     }
 
+    function updateFormData() {
+
+        const evidenceIds = [];
+
+        for (const evidenceItem of selectedEvidence) {
+            evidenceIds.push(evidenceItem.id);
+        }
+
+        const profileIds = [];
+
+        for (const profile of selectedProfiles) {
+            profileIds.push(profile.id);
+        }
+
+        //The fucking set function decided to stop working, so we're doing it manually
+        formData.evidence = evidenceIds;
+        formData.profiles = profileIds;
+
+    }
+
     const submitHandler = async (e) => {
 
         e.preventDefault();
+
+        updateFormData();
 
         await postNewCase(formData);
 
@@ -40,7 +65,8 @@ function CaseCreate() {
             evidence: [],
             profiles: [],
             game: '',
-        })
+        });
+        setSelectedEvidence([]);
     }
 
     async function postNewCase(newCase) {
@@ -103,6 +129,7 @@ function CaseCreate() {
     useEffect(() => {
 
         fetchData();
+        setSelectedEvidence([]);
 
     }, []);
 
@@ -137,11 +164,13 @@ function CaseCreate() {
                 </div>
 
                 <div>
-                    <h3>Evidence</h3>
+                    <h2>Evidence</h2>
+                    <MultiSelect items={evidence} selectedItems={selectedEvidence} setSelectedItems={setSelectedEvidence}/>
                 </div>
 
                 <div>
-                    <h3>Profiles</h3>
+                    <h2>Profiles</h2>
+                    <MultiSelect items={profiles} selectedItems={selectedProfiles} setSelectedItems={setSelectedProfiles}/>
                 </div>
 
                 <div>

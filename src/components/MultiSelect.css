@@ -1,0 +1,52 @@
+
+.multiSelectWindow {
+    border: var(--green) solid 1px;
+    display: flex;
+    justify-content: space-between;
+    height: 20vh;
+}
+
+.multiSelectLeft {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+.unselectedItems,
+.selectedItems {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1vw;
+    overflow: auto;
+    padding: 1vw;
+
+    article {
+        border: var(--pink) 1px solid;
+        padding: 0.2vw;
+        cursor: pointer;
+        height: min-content;
+    }
+}
+
+.detailWindow {
+    height: 49%;
+    width: 100%;
+}
+
+.selectedItems {
+    height: 49%;
+    width: 100%;
+}
+
+.unselectedItems {
+    height: 100%;
+    width: 48%;
+    color: var(--offWhite);
+
+    background-image: radial-gradient(var(--darkBlueDot) 20%, transparent 20%),
+    radial-gradient(var(--darkBlueDot) 20%, transparent 20%);
+    background-position: 0 0, 4px 4px;
+    background-size: 8px 8px;
+    background-color: var(--darkBlue);
+}
