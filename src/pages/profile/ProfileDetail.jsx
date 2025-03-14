@@ -1,12 +1,11 @@
-import {useEnv} from "../../context/EnvContext.jsx";
 import {Link, useParams} from "react-router";
 import {useEffect, useState} from "react";
 import ScrollButtons from "../../components/ScrollButtons.jsx";
 import FetchError from "../../components/FetchError.jsx";
+import fetchFunc from "../../util/fetchFunc.jsx";
 
 function ProfileDetail() {
 
-    const env = useEnv();
     const {id} = useParams();
     const [profile, setProfile] = useState(null);
     const [gameCases, setGameCases] = useState(new Map);
@@ -17,41 +16,31 @@ function ProfileDetail() {
     const [description, setDescription] = useState(0);
     const [image, setImage] = useState(0);
 
-    useEffect(() => {
-        async function fetchSpecificProfile() {
+    async function fetchSpecificProfile() {
 
-            try {
+        const response = await fetchFunc('profiles', {
+            method: 'GET',
+            id: id
+        });
 
-                const response = await fetch(env.baseApiUrl + "profiles/" + id, {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                });
+        if (response.ok) {
+            setProfile(response.body);
 
-                if (!response.ok) {
-                    const errorMessage = await response.json();
-                    throw new Error(errorMessage.error, {cause: response.status});
-                }
+            for (const fetchedCase of response.body.cases) {
+                const name = fetchedCase.name;
+                const id = fetchedCase._id;
 
-                const data = await response.json();
-
-                setProfile(data);
-
-                for (const fetchedCase of data.cases) {
-                    const name = fetchedCase.name;
-                    const id = fetchedCase._id;
-
-                    gameCases.set(id, name);
-                }
-
-            } catch (error) {
-
-                setFetchError(error);
-
+                setGameCases(gameCases.set(id, name));
             }
 
+        } else {
+            setFetchError({cause: response.status, message: response.statusText});
         }
+
+
+    }
+
+    useEffect(() => {
 
         fetchSpecificProfile();
 

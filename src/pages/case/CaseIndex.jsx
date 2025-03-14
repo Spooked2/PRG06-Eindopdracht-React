@@ -1,45 +1,37 @@
 import {useEffect, useState} from "react";
-import {useEnv} from "../../context/EnvContext.jsx";
 import CaseCard from "../../components/CaseCard.jsx";
 import './CaseIndex.css';
+import fetchFunc from "../../util/fetchFunc.jsx";
+import FetchError from "../../components/FetchError.jsx";
 
 function CaseIndex() {
 
-    const env = useEnv();
     const [gameCases, setGameCases] = useState(null);
+    const [fetchError, setFetchError] = useState(false);
+
+    async function fetchAllCases() {
+
+        const response = await fetchFunc('cases', {
+            method: 'GET'
+        });
+
+        if (response.ok) {
+            setGameCases(response.body.items);
+        } else {
+            setFetchError({cause: response.status, message: response.statusText});
+        }
+
+    }
 
     useEffect(() => {
-        async function fetchAllCases() {
-
-            try {
-
-                const response = await fetch(env.baseApiUrl + "cases", {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Something went wrong! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                setGameCases(data.items);
-
-            } catch (error) {
-
-                console.error(error.message);
-
-            }
-
-        }
 
         fetchAllCases();
 
     }, []);
 
+    if (fetchError) {
+        return <FetchError error={fetchError}/>
+    }
 
     return (
         <section id={"caseIndex"}>

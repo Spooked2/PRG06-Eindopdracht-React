@@ -1,43 +1,36 @@
-import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 import {Link} from "react-router";
+import fetchFunc from "../../util/fetchFunc.jsx";
+import FetchError from "../../components/FetchError.jsx";
 
 function ProfileIndex() {
 
-    const env = useEnv();
     const [profiles, setProfiles] = useState(null);
+    const [fetchError, setFetchError] = useState(false);
+
+    async function fetchAllProfiles() {
+
+        const response = await fetchFunc('profiles', {
+            method: 'GET'
+        });
+
+        if (response.ok) {
+            setProfiles(response.body.items);
+        } else {
+            setFetchError({cause: response.status, message: response.statusText});
+        }
+
+    }
 
     useEffect(() => {
-        async function fetchAllProfiles() {
-
-            try {
-
-                const response = await fetch(env.baseApiUrl + "profiles", {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Something went wrong! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                setProfiles(data.items);
-
-            } catch (error) {
-
-                console.error(error.message);
-
-            }
-
-        }
 
         fetchAllProfiles();
 
     }, []);
+
+    if (fetchError) {
+        return <FetchError error={fetchError}/>
+    }
 
     return (
         <section>

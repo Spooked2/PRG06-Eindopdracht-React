@@ -1,43 +1,36 @@
-import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 import {Link} from "react-router";
+import fetchFunc from "../../util/fetchFunc.jsx";
+import FetchError from "../../components/FetchError.jsx";
 
 function EvidenceIndex() {
 
-    const env = useEnv();
     const [evidence, setEvidence] = useState(null);
+    const [fetchError, setFetchError] = useState(false);
+
+    async function fetchAllEvidence() {
+
+        const response = await fetchFunc('evidence', {
+            method: 'GET'
+        });
+
+        if (response.ok) {
+            setEvidence(response.body.items);
+        } else {
+            setFetchError({cause: response.status, message: response.statusText});
+        }
+
+    }
 
     useEffect(() => {
-        async function fetchAllEvidence() {
-
-            try {
-
-                const response = await fetch(env.baseApiUrl + "evidence", {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Something went wrong! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                setEvidence(data.items);
-
-            } catch (error) {
-
-                console.error(error.message);
-
-            }
-
-        }
 
         fetchAllEvidence();
 
     }, []);
+
+    if (fetchError) {
+        return <FetchError error={fetchError}/>
+    }
 
     return (
         <section id={'evidenceIndex'}>

@@ -1,13 +1,14 @@
-import {useEnv} from "../../context/EnvContext.jsx";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router";
 import ScrollButtons from "../../components/ScrollButtons.jsx";
+import FetchError from "../../components/FetchError.jsx";
+import fetchFunc from "../../util/fetchFunc.jsx";
 
 function EvidenceDetail() {
 
-    const env = useEnv();
     const {id} = useParams();
     const [evidence, setEvidence] = useState(null);
+    const [fetchError, setFetchError] = useState(false);
 
     const [name, setName] = useState(0);
     const [shortDescription, setShortDescription] = useState(0);
@@ -15,37 +16,31 @@ function EvidenceDetail() {
     const [smallImage, setSmallImage] = useState(0);
     const [largeImage, setLargeImage] = useState(0);
 
-    useEffect(() => {
-        async function fetchSpecificEvidence() {
+    async function fetchSpecificEvidence() {
 
-            try {
+        const response = await fetchFunc('evidence', {
+            method: 'GET',
+            id: id
+        });
 
-                const response = await fetch(env.baseApiUrl + "evidence/" + id, {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Something went wrong! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                setEvidence(data);
-
-            } catch (error) {
-
-                console.error(error.message);
-
-            }
-
+        if (response.ok) {
+            setEvidence(response.body)
+        } else {
+            setFetchError({cause: response.status, message: response.statusText})
         }
+
+    }
+
+
+    useEffect(() => {
 
         fetchSpecificEvidence();
 
     }, []);
+
+    if (fetchError) {
+        return <FetchError error={fetchError}/>
+    }
 
     return (
         <section id={'evidenceDetail'}>

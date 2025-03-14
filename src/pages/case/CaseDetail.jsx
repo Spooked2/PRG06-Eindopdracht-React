@@ -11,7 +11,7 @@ function CaseDetail() {
 
     async function fetchCase() {
 
-        const response = await fetchFunc('games', {
+        const response = await fetchFunc('cases', {
             method: 'GET',
             id: id
         });
