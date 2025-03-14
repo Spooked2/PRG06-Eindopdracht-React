@@ -3,6 +3,7 @@ import CaseCard from "../../components/CaseCard.jsx";
 import './CaseIndex.css';
 import fetchFunc from "../../util/fetchFunc.jsx";
 import FetchError from "../../components/FetchError.jsx";
+import {Link} from "react-router";
 
 function CaseIndex() {
 
@@ -37,6 +38,8 @@ function CaseIndex() {
         <section id={"caseIndex"}>
 
             <h1>All cases</h1>
+
+            <Link to={'/create/cases'}>Create new case</Link>
 
             <div id={"caseContainer"}>
                 {
