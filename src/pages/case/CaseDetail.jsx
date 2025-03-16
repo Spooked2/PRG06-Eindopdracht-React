@@ -80,6 +80,7 @@ function CaseDetail() {
                 </div>
 
                 <Link to={`/update/cases/${id}`}>Edit case</Link>
+                <Link to={`/delete/cases/${id}`}>Delete case</Link>
 
             </section>
         ) :
