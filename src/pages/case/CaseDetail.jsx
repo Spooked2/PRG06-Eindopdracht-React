@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useParams} from "react-router";
+import {Link, useParams} from "react-router";
 import fetchFunc from "../../util/fetchFunc.jsx";
 import FetchError from "../../components/FetchError.jsx";
 
@@ -78,6 +78,8 @@ function CaseDetail() {
                     }
 
                 </div>
+
+                <Link to={`/update/cases/${id}`}>Edit case</Link>
 
             </section>
         ) :

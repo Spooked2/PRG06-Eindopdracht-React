@@ -130,6 +130,7 @@ function CaseCreate() {
 
         fetchData();
         setSelectedEvidence([]);
+        setSelectedProfiles([]);
 
     }, []);
 

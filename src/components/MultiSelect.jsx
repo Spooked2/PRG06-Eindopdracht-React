@@ -8,7 +8,8 @@ function MultiSelect({items, selectedItems, setSelectedItems}) {
     useEffect(() => {
 
         if (items.length > 0) {
-            setUnselectedItems(items.filter(item => !selectedItems.includes(item)));
+            const filtered = items.filter(item => !selectedItems.some(selectedItem => selectedItem.id === item.id));
+            setUnselectedItems(filtered);
         }
 
     }, [items, selectedItems]);
@@ -26,7 +27,7 @@ function MultiSelect({items, selectedItems, setSelectedItems}) {
 
         const item = items.find(item => item.id === itemId);
 
-        if (!selectedItems.includes(item)) {
+        if (!selectedItems.some(selectedItem => selectedItem.id === item.id)) {
             return;
         }
 
