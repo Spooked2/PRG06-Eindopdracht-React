@@ -76,7 +76,7 @@ function CaseDetail() {
                                         alt={`Image of ${evidencePiece.names[0]}`}/>
                                 </div>
 
-                                <Link to={`/profiles/${evidencePiece.id}`}>{evidencePiece.names[0]}</Link>
+                                <Link to={`/evidence/${evidencePiece.id}`}>{evidencePiece.names[0]}</Link>
 
                             </article>
                         ))
