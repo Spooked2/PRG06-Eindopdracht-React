@@ -1,0 +1,12 @@
+#caseContainer {
+    display: flex;
+    flex-flow: row wrap;
+
+}
+
+#gameContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 3vw;
+    padding: 1vw;
+}

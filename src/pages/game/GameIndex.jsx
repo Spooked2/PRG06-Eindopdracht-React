@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router";
 import FetchError from "../../components/FetchError.jsx";
 import fetchFunc from "../../util/fetchFunc.jsx";
+import './GameIndex.css';
 
 function GameIndex() {
 
