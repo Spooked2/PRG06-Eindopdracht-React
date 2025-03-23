@@ -38,6 +38,8 @@ function ProfileIndex() {
 
             <h1>All profiles</h1>
 
+            <Link to={'/create/profiles'}>Create new profile</Link>
+
             {
                 profiles ? (
 
