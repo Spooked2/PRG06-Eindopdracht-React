@@ -1,9 +1,39 @@
 import fetchFunc from "../../util/fetchFunc.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import ArrayInput from "../../components/ArrayInput.jsx";
+import ArrayInputCases from "../../components/ArrayInputCases.jsx";
+import FetchError from "../../components/FetchError.jsx";
+import {useNavigate} from "react-router";
 
 function ProfileCreate() {
 
+    const navigate = useNavigate();
+
     const [messages, setMessages] = useState({});
+
+    const [names, setNames] = useState([]);
+    const [ages, setAges] = useState([]);
+    const [descriptions, setDescriptions] = useState([]);
+    const [images, setImages] = useState([]);
+    const [gameCases, setGameCases] = useState([]);
+    const [fetchError, setFetchError] = useState(false);
+    const [readyToSend, setReadyToSend] = useState(false);
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    async function getData() {
+        const res = await fetchFunc('cases', {
+            method: 'GET'
+        });
+
+        if (res.ok) {
+            setGameCases(res.body.items);
+        } else {
+            setFetchError({cause: res.status, message: res.statusText});
+        }
+    }
 
     const [formData, setFormData] = useState({
         names: [],
@@ -13,32 +43,49 @@ function ProfileCreate() {
         cases: []
     });
 
-    const inputChangeHandler = (e) => {
-        const {name, value} = e.target;
-
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    }
-
     const submitHandler = async (e) => {
 
         e.preventDefault();
 
-        await postNewProfile(formData);
+        const caseIds = [];
 
-    }
+        for (const description of descriptions) {
+            if (!caseIds.includes(description.case)) {
+                caseIds.push(description.case);
+            }
+        }
 
-    const clearFormData = () => {
         setFormData({
-            names: [],
-            ages: [],
-            descriptions: [],
-            images: [],
-            cases: []
-        })
+            names: names,
+            ages: ages,
+            descriptions: descriptions,
+            images: images,
+            cases: caseIds
+        });
+
+        setReadyToSend(true);
+
     }
+
+    useEffect(() => {
+
+        for (const [key, value] of Object.entries(formData)) {
+
+            if (!Array.isArray(value)) {
+                setMessages({error: `${key} is not an array`});
+                return;
+            }
+
+            if (value.length <= 0) {
+                setMessages({error: `${key} can not be empty`});
+                return;
+            }
+
+        }
+
+        postNewProfile(formData);
+
+    }, [readyToSend])
 
     async function postNewProfile(newProfile) {
 
@@ -50,7 +97,8 @@ function ProfileCreate() {
         if (response.ok) {
 
             setMessages({success: "Profile was created!"});
-            clearFormData();
+
+            navigate('/profiles/' + response.body.profile.id);
 
         } else {
 
@@ -58,6 +106,32 @@ function ProfileCreate() {
 
         }
 
+    }
+
+    function handleFileChange(e) {
+        const file = e.target.files[0];
+
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+
+            const newImage = {
+                mime: file.type,
+                data: reader.result.split(',')[1]
+            }
+
+            setImages([...images, newImage]);
+        }
+
+    }
+
+    function removeImage(e) {
+        setImages(images.toSpliced(e.target.id, 1));
+    }
+
+    if (fetchError) {
+        return <FetchError error={fetchError}/>
     }
 
     return (
@@ -77,31 +151,28 @@ function ProfileCreate() {
 
             <form onSubmit={submitHandler}>
 
-                <div>
-                    <label htmlFor={'full_name'}>Full name</label>
-                    <input type="text" max={255} required={true}
-                           id={'full_name'} name={'full_name'}
-                           value={formData.full_name} placeholder={'Phoenix Wright: Ace Attorney'}
-                           onChange={inputChangeHandler}
-                    />
-                </div>
+                <ArrayInput name={'name'} array={names} setArray={setNames}/>
 
-                <div>
-                    <label htmlFor={'short_name'}>Shortened name</label>
-                    <input type="text" max={255} required={true}
-                           id={'short_name'} name={'short_name'}
-                           value={formData.short_name} placeholder={'PW:AA'}
-                           onChange={inputChangeHandler}
-                    />
-                </div>
+                <ArrayInput name={'age'} array={ages} setArray={setAges}/>
 
-                <div>
-                    <label htmlFor={'release_year'}>Year of release</label>
-                    <input type="text" max={255} required={true}
-                           id={'release_year'} name={'release_year'}
-                           value={formData.release_year} placeholder={'2001'}
-                           onChange={inputChangeHandler}
-                    />
+                {gameCases.length > 0 ?
+                    (<ArrayInputCases name={'description'} array={descriptions} setArray={setDescriptions}
+                                      gameCases={gameCases}/>)
+                    : <h3>Loading...</h3>
+                }
+
+                <div className={'fileUpload'}>
+                    <label htmlFor="images">Images</label>
+                    <input type="file" name={'images'} id={'images'} onChange={handleFileChange}/>
+
+                    <div className={'imageDisplay'}>
+                        {images.length > 0 ? images.map(image =>
+                            (<div key={images.indexOf(image)} id={`${images.indexOf(image)}`} onClick={removeImage}>
+                                <img src={`data:${image.mime};base64, ${image.data}`}
+                                     alt={"Uploaded Image"}/>
+                            </div>)
+                        ) : ''}
+                    </div>
                 </div>
 
                 <button type={'submit'}>Create profile</button>

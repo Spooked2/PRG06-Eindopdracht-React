@@ -1,0 +1,42 @@
+.arrayInput {
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+}
+
+.arrayInputContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 1vw;
+
+    >div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    >button {
+        height: fit-content;
+        padding: 0.2vw;
+    }
+}
+
+.arrayInputList {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--offWhite);
+    padding: 1vw;
+    gap: 0.5vw;
+    min-height: 10vh;
+
+    >p {
+        padding: 0.5vw 1vw;
+
+    }
+
+    >p:hover {
+        cursor: pointer;
+        background-color: var(--pink);
+    }
+}
+

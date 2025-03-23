@@ -12,7 +12,7 @@
   --darkBlue: #070e21;
   --darkBlueDot: #1e2538;
   --green: #1ee024;
-  --lightYellow: #c5a225;
+  --lightYellow: #ffc31e;
   --darkYellow: #403016;
   --offWhite: #f7f6f2;
   --cream: #f1ede3;
@@ -57,4 +57,9 @@ main {
   background-position: 0 0, 4px 4px;
   background-size: 8px 8px;
   background-color: var(--lightBlue);
+}
+
+.highlight {
+  background-color: var(--lightYellow);
+  padding: 0 1vw;
 }
