@@ -15,8 +15,9 @@
 
 #caseContainer {
     display: flex;
-    flex-direction: column;
+    flex-flow: row wrap;
     gap: 1vh;
     width: 100%;
-    align-items: center;
+    align-items: flex-end;
+    justify-content: center;
 }

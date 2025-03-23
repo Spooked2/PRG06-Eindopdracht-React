@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import ScrollButtons from "../../components/ScrollButtons.jsx";
 import FetchError from "../../components/FetchError.jsx";
 import fetchFunc from "../../util/fetchFunc.jsx";
+import './ProfileDetail.css'
 
 function ProfileDetail() {
 
@@ -67,36 +68,31 @@ function ProfileDetail() {
 
                         </ScrollButtons>
 
-                        <div>
 
-                            <div>
+                        <ScrollButtons key={'name'} targetLength={profile.names.length} setter={setName}>
 
-                                <ScrollButtons key={'name'} targetLength={profile.names.length} setter={setName}>
+                            <h1>{profile.names[name]}</h1>
 
-                                    <h1>{profile.names[name]}</h1>
+                        </ScrollButtons>
 
-                                </ScrollButtons>
+                        <ScrollButtons key={'age'} targetLength={profile.ages.length} setter={setAge}>
+                            (Age: {profile.ages[age]})
+                        </ScrollButtons>
 
-                                <ScrollButtons key={'age'} targetLength={profile.ages.length} setter={setAge}>
-                                    (Age: {profile.ages[age]})
-                                </ScrollButtons>
 
-                            </div>
+                        <ScrollButtons key={'description'}
+                                       targetLength={profile.descriptions.length}
+                                       setter={setDescription}>
 
-                            <ScrollButtons key={'description'}
-                                           targetLength={profile.descriptions.length}
-                                           setter={setDescription}>
+                            <p>{profile.descriptions[description].text}</p>
+                            <p>Description from
+                                <Link to={'/cases/' + profile.descriptions[description].case}>
+                                    {gameCases.get(profile.descriptions[description].case)}
+                                </Link>
+                            </p>
 
-                                <p>{profile.descriptions[description].text}</p>
-                                <p>Description from
-                                    <Link to={'/cases/' + profile.descriptions[description].case}>
-                                        {gameCases.get(profile.descriptions[description].case)}
-                                    </Link>
-                                </p>
+                        </ScrollButtons>
 
-                            </ScrollButtons>
-
-                        </div>
 
                     </article>
 

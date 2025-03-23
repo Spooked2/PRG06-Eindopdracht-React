@@ -31,7 +31,7 @@ function ScrollButtons({children, targetLength, setter}) {
     }
 
     return (
-        <div>
+        <div className={'scrollButtons'}>
 
             <button onClick={onClickSelectPreviousHandler} className={targetLength > 1 ? '' : 'hidden'}>←</button>
 

@@ -1,4 +1,13 @@
 
+.scrollButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+    justify-content: center;
+    min-width: 20vw;
+    align-items: center;
+}
+
 .hidden {
     display: none;
 }
