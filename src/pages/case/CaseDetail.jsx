@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router";
 import fetchFunc from "../../util/fetchFunc.jsx";
 import FetchError from "../../components/FetchError.jsx";
+import './CaseDetail.css'
 
 function CaseDetail() {
 
@@ -39,7 +40,9 @@ function CaseDetail() {
                 <h1>{gameCase.name}</h1>
                 <p>Appears in {gameCase.game.full_name ?? gameCase.game.short_name}</p>
 
+                <h2>People involved</h2>
                 <div id={'profileContainer'}>
+
 
                     {
                         gameCase.profiles.map(profile => (
@@ -50,7 +53,7 @@ function CaseDetail() {
                                          alt={`Image of ${profile.names[0]}`}/>
                                 </div>
 
-                                <h4>{profile.names[0]}</h4>
+                                <Link to={`/profiles/${profile.id}`}>{profile.names[0]}</Link>
 
                             </article>
                         ))
@@ -58,7 +61,9 @@ function CaseDetail() {
 
                 </div>
 
+                <h2>List of evidence</h2>
                 <div id={'evidenceContainer'}>
+
 
                     {
                         gameCase.evidence.map(evidencePiece => (
@@ -71,7 +76,7 @@ function CaseDetail() {
                                         alt={`Image of ${evidencePiece.names[0]}`}/>
                                 </div>
 
-                                <h4>{evidencePiece.names[0]}</h4>
+                                <Link to={`/profiles/${evidencePiece.id}`}>{evidencePiece.names[0]}</Link>
 
                             </article>
                         ))
@@ -79,8 +84,10 @@ function CaseDetail() {
 
                 </div>
 
-                <Link to={`/update/cases/${id}`}>Edit case</Link>
-                <Link to={`/delete/cases/${id}`}>Delete case</Link>
+                <div>
+                    <Link to={`/update/cases/${id}`}>Edit case</Link>
+                    <Link to={`/delete/cases/${id}`}>Delete case</Link>
+                </div>
 
             </section>
         ) :

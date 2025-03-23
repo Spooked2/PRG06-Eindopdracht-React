@@ -1,0 +1,14 @@
+
+#profileContainer {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1vw;
+    align-items: flex-end;
+    justify-content: center;
+
+
+    > article {
+        width: 25vw;
+        font-size: 1vw;
+    }
+}

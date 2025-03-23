@@ -7,6 +7,9 @@ import './GameIndex.css';
 function GameIndex() {
 
     const [games, setGames] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [fetchedGames, setFetchedGames] = useState(null);
+
     const [fetchError, setFetchError] = useState(false);
 
     async function fetchGames() {
@@ -16,7 +19,7 @@ function GameIndex() {
         });
 
         if (response.ok) {
-            setGames(response.body.items)
+            setFetchedGames(response.body.items)
         } else {
             setFetchError({cause: response.status, message: response.statusText})
         }
@@ -28,11 +31,47 @@ function GameIndex() {
 
     }, []);
 
+    useEffect(() => {
+
+        setCurrentPage(0);
+
+    }, [fetchedGames]);
+
+    useEffect(() => {
+
+        if (fetchedGames) {
+            setGames(fetchedGames.slice(currentPage * 3, ((currentPage * 3) + 3)))
+        }
+
+    }, [currentPage, fetchedGames]);
+
+    function previousPage() {
+
+        if (currentPage === 0) {
+            return;
+        }
+
+        setCurrentPage(currentPage - 1);
+
+    }
+
+    function nextPage() {
+        const amount = fetchedGames.length;
+        const nextIndex = currentPage + 1;
+
+        if (nextIndex >= (amount / 3)) {
+            return;
+        }
+
+        setCurrentPage(currentPage + 1);
+
+    }
+
     if (fetchError) {
         return <FetchError error={fetchError}/>
     }
 
-    return (
+    return fetchedGames ? (
         <section id={'gameIndex'}>
 
             <h1>All games</h1>
@@ -84,7 +123,14 @@ function GameIndex() {
                 }
             </div>
 
+            <div>
+                <button type={"button"} onClick={previousPage}>Previous</button>
+                <button type={"button"} onClick={nextPage}>Next</button>
+            </div>
+
         </section>
+    ) : (
+        <h1>Loading...</h1>
     )
 }
 

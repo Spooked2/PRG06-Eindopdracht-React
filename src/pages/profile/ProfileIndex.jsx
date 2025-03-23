@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router";
 import fetchFunc from "../../util/fetchFunc.jsx";
 import FetchError from "../../components/FetchError.jsx";
+import './ProfileIndex.css';
 
 function ProfileIndex() {
 
