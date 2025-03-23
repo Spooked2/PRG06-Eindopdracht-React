@@ -63,3 +63,7 @@ main {
   background-color: var(--lightYellow);
   padding: 0 1vw;
 }
+
+.underline {
+  text-decoration: underline black;
+}
